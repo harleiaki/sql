@@ -1,0 +1,39 @@
+1-Criação de tabela.
+2-Alterando e descartando tabela.
+3-Inserindo, atualizando e apagando dados.
+
+query1.1. SELECT id, idade, sexo, dependentes FROM clientes;
+
+query1.2. SELECT id, valor_transacoes_12m FROM clientes WHERE escolaridade = 'mestrado' and sexo = 'F';
+
+query1.3. SELECT sexo, AVG(idade) AS "media_idade_por_sexo" FROM clientes GROUP BY sexo;
+
+query2.1. SELECT * FROM clientes;
+
+query3.1. 
+CREATE EXTERNAL TABLE clientes_part(
+  id BIGINT, 
+  idade BIGINT, 
+  dependentes BIGINT, 
+  escolaridade STRING, 
+  tipo_cartao STRING, 
+  limite_credito DOUBLE, 
+  valor_transacoes_12m DOUBLE, 
+  qtd_transacoes_12m BIGINT) 
+  PARTITIONED BY (sexo string)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES ('separatorChar' = ',', 'quoteChar' = '"', 'escapeChar' = '\\')
+STORED AS TEXTFILE
+LOCATION 's3://bucket-<seunome>-partitioned/'
+
+query.3.2. MSCK REPAIR TABLE clientes_part;
+
+query.3.3. SELECT * FROM clientes_part WHERE sexo = 'F';
+
+query.3.4. SELECT id, idade, limite_credito FROM clientes_part WHERE sexo = 'M' ORDER BY limite_credito DESC;
+
+query.4.1. ALTER TABLE clientes ADD COLUMNS (estado string)
+
+query.4.2. SELECT * FROM clientes
+
+query.5.1. DROP TABLE clientes
