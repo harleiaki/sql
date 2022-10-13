@@ -1,5 +1,7 @@
 # SQL
 
+USE OS DADOS DA TABELA
+
 1.fazer um bucket e upar o arquivo credito-aula.
 
 2.fazer a query da tabela.
